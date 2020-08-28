@@ -14,5 +14,5 @@ public interface ICategoryService {
     // 平级分类查询接口
     ServerResponse<List<Category>> getChildrenParallelCategory(Integer categoryId);
     // 递归查询接口
-    ServerResponse selectCategoryAndChildrenById(Integer categoryId);
+    ServerResponse<List<Integer>> selectCategoryAndChildrenById(Integer categoryId);
 }

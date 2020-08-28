@@ -16,13 +16,14 @@ public class PropertiesUtil {
 
     private static Properties props;
 
+    // Tomcat启动时便执行静态代码块中的初始化操作
     static {
         String fileName = "mmall.properties";
         props = new Properties();
         try {
             props.load(new InputStreamReader(Objects.requireNonNull(PropertiesUtil.class.getClassLoader().getResourceAsStream(fileName)), StandardCharsets.UTF_8));
         } catch (IOException e) {
-            logger.error("配置文件读取异常",e);
+            logger.error("配置文件读取异常", e);
         }
     }
 
@@ -35,7 +36,6 @@ public class PropertiesUtil {
     }
 
     public static String getProperty(String key,String defaultValue){
-
         String value = props.getProperty(key.trim());
         if(StringUtils.isBlank(value)){
             value = defaultValue;
