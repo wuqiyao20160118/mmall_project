@@ -54,7 +54,7 @@ public class ServerResponse<T> implements Serializable {
         return msg;
     }
 
-    // 使用静态方法可以给一个具体的方法名，对开发者来说是友好的。而不是一个构造函数。
+    // 使用静态方法可以给一个具体的方法名，对开发者来说是友好的。而不是提供一个构造函数。
 
     // 因为Success经常用到，所以单独提出来
     public static <T> ServerResponse<T> createBySuccess() {

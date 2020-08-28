@@ -24,4 +24,7 @@ public interface IUserService {
     ServerResponse<User> updateInformation(User user);
     // 获取用户信息接口
     ServerResponse<User> getInformation(Integer userId);
+
+    // 校验管理员接口
+    ServerResponse checkAdminRole(User user);
 }

@@ -8,6 +8,8 @@ import com.mmall.pojo.User;
 import com.mmall.service.IUserService;
 import com.mmall.util.MD5Util;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,8 @@ import java.util.UUID;
 // service -> mybatis -> dao
 @Service("iUserService")
 public class UserServiceImpl implements IUserService {
+
+    private Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
     @Autowired  // mybatis扫描包时按照配置文件扫描了com.mmall.dao
     private UserMapper userMapper;
@@ -181,5 +185,14 @@ public class UserServiceImpl implements IUserService {
         }
         user.setPassword(StringUtils.EMPTY);
         return ServerResponse.createBySuccess(user);
+    }
+
+    // backend
+    @Override
+    public ServerResponse checkAdminRole(User user) {
+        if (user != null && user.getRole() == Const.Role.ROLE_ADMIN) {
+            return ServerResponse.createBySuccess();
+        }
+        return ServerResponse.createByError();
     }
 }
