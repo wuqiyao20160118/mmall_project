@@ -43,6 +43,7 @@ public class FTPUtil {
         FileInputStream fis = null;
         if (connectServer(ip, port, user, pwd)) {
             try {
+                // 切换至远程FTP服务器上传路径
                 ftpClient.changeWorkingDirectory(remotePath);
                 // 设置缓冲区
                 ftpClient.setBufferSize(1024);
@@ -51,12 +52,15 @@ public class FTPUtil {
                 ftpClient.enterLocalPassiveMode();  // 打开被动模式
                 for (File fileItem : fileList) {
                     fis = new FileInputStream(fileItem);
+                    // public boolean storeFile(String remote, java.io.InputStream local)
+                    logger.info("Remote file path: {}", fileItem.getName());
                     ftpClient.storeFile(fileItem.getName(), fis);
                 }
             } catch (IOException e) {
                 logger.error("上传文件异常", e);
                 uploaded = false;
             } finally {
+                // IMPORTANT：回收资源，关闭连接
                 fis.close();
                 ftpClient.disconnect();
             }

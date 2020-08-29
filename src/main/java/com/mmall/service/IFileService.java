@@ -4,5 +4,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 public interface IFileService {
 
+    // 文件上传接口
     String upload(MultipartFile file, String path);
 }

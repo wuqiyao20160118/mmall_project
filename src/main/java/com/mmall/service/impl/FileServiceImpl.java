@@ -25,6 +25,7 @@ public class FileServiceImpl implements IFileService {
 
         logger.info("开始上传文件，上传文件的文件名：{}，上传路径：{}，新文件名：{}", fileName, path, uploadFileName);
 
+        // 动态创建上传文件目录，目录位于WEB-INF中
         File fileDir = new File(path);
         if (!fileDir.exists()) {
             // IMPORTANT：设置写权限

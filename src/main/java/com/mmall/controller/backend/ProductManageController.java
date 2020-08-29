@@ -11,6 +11,8 @@ import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
 import com.mmall.util.PropertiesUtil;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,6 +28,8 @@ import java.util.Map;
 @Controller
 @RequestMapping("/manage/product")
 public class ProductManageController {
+
+    private static final Logger log = LoggerFactory.getLogger(ProductManageController.class);
 
     @Autowired
     private IUserService iUserService;
@@ -131,6 +135,12 @@ public class ProductManageController {
         if (!iUserService.checkAdminRole(user).isSuccess()) {
             return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
         }
+        log.info("HttpSession路径 与 request.session()路径是否相同：{}",
+                session.getServletContext().getRealPath("upload").equals(request.getSession().getServletContext().getRealPath("upload")));
+        // 服务器会为每一个工程创建一个对象，这个对象就是ServletContext对象。这个对象全局唯一，而且工程内部的所有servlet都共享这个对象。所以叫全局应用程序共享对象。
+
+        // 根据相对路径获取服务器上资源的绝对路径
+        // 获取到的路径是和WEB-INF文件夹同一层名为upload的文件夹的绝对路径
         String path = request.getSession().getServletContext().getRealPath("upload");
         String targetFileName = iFileService.upload(file, path);
         // 拼接URL
