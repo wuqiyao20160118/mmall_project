@@ -109,7 +109,7 @@ public class CartController {
         return iCartService.selectOrUnSelect(user.getId(), productId, Const.Cart.UNCHECKED);
     }
 
-    @RequestMapping(value = "get_count_product_count.do")
+    @RequestMapping(value = "get_cart_product_count.do")
     @ResponseBody
     public ServerResponse<Integer> getCountProductCount(HttpSession session) {
         User user = (User) session.getAttribute(Const.CURRENT_USER);

@@ -101,7 +101,7 @@
         create_time = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="updateTime != null" >
-        now(),
+        update_time = now(),
       </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
@@ -142,6 +142,7 @@
     delete from mmall_cart
     where user_id = #{userId}
     <if test="productIdList != null">
+      and product_id in
       <foreach collection="productIdList" item="item" index="index" open="(" separator="," close=")">
         #{item}
       </foreach>
@@ -163,5 +164,12 @@
     IFNULL(sum(quantity), 0) as count
     from mmall_cart
     where user_id = #{userId}
+  </select>
+
+  <select id="selectCheckedCartByUserId" resultMap="BaseResultMap" parameterType="int">
+    select
+    <include refid="Base_Column_List"></include>
+    from mmall_cart
+    where user_id = #{userId} and checked = 1
   </select>
 </mapper>

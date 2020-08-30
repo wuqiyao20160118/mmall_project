@@ -328,6 +328,7 @@
     </pluginManagement>
 
     <plugins>
+      <!-- 本地jar包发送到服务器 -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
