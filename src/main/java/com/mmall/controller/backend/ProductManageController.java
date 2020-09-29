@@ -9,7 +9,11 @@ import com.mmall.pojo.User;
 import com.mmall.service.IFileService;
 import com.mmall.service.IProductService;
 import com.mmall.service.IUserService;
+import com.mmall.util.CookieUtil;
+import com.mmall.util.JsonUtil;
 import com.mmall.util.PropertiesUtil;
+import com.mmall.util.RedisPoolUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +31,8 @@ import java.util.Map;
 
 @Controller
 @RequestMapping("/manage/product")
+@Slf4j
 public class ProductManageController {
-
-    private static final Logger log = LoggerFactory.getLogger(ProductManageController.class);
 
     @Autowired
     private IUserService iUserService;
@@ -155,9 +158,17 @@ public class ProductManageController {
 
     @RequestMapping(value = "richtext_img_upload.do")
     @ResponseBody
-    public Map richtextImgUpload(HttpSession session, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
+    public Map richtextImgUpload(HttpServletRequest httpServletRequest, @RequestParam(value = "upload_file", required = false) MultipartFile file, HttpServletRequest request, HttpServletResponse response) {
         Map resultMap = Maps.newHashMap();
-        User user = (User) session.getAttribute(Const.CURRENT_USER);
+        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+        if (StringUtils.isEmpty((loginToken))) {
+            resultMap.put("success", false);
+            resultMap.put("msg", "用户未登录，请登录");
+            return resultMap;
+        }
+        String userJsonStr = RedisPoolUtil.get(loginToken);
+        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+
         if (user == null) {
             resultMap.put("success", false);
             resultMap.put("msg", "用户未登录，请登录");

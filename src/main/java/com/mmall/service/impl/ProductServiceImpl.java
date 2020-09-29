@@ -16,9 +16,8 @@ import com.mmall.util.DateTimeUtil;
 import com.mmall.util.PropertiesUtil;
 import com.mmall.vo.ProductDetailVo;
 import com.mmall.vo.ProductListVo;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,9 +25,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service("iProductService")
+@Slf4j
 public class ProductServiceImpl implements IProductService {
-
-    private static final Logger logger = LoggerFactory.getLogger(ProductServiceImpl.class);
 
     @Autowired
     private ProductMapper productMapper;
@@ -137,7 +135,7 @@ public class ProductServiceImpl implements IProductService {
         // 3.pageHelper--收尾
         PageHelper.startPage(pageNum, pageSize);
         List<Product> productList = productMapper.selectList();
-        logger.info("productList success");
+        log.info("productList success");
         // 不需要商品所有信息，故创建一个VO供展示使用
         List<ProductListVo> productListVoList = Lists.newArrayList();
         for (Product productItem : productList) {

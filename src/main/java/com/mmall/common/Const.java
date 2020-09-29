@@ -13,6 +13,7 @@ public class Const {
 
     public static final String EMAIL = "email";
     public static final String USERNAME = "username";
+    public static final String TOKEN_PREFIX = "token_";
 
     // 内部接口类对用户进行分组
     // 当一组常量数量较少时，在类中使用内部接口对常量进行分组
@@ -40,6 +41,10 @@ public class Const {
 
         String RESPONSE_SUCCESS = "success";
         String RESPONSE_FAILED = "failed";
+    }
+
+    public interface RedisCacheExtime {
+        int REDIS_SESSION_EXTIME = 60 * 30;  // 30分钟
     }
 
     public enum ProductStatusEnum {
