@@ -9,7 +9,7 @@ import com.mmall.service.IOrderService;
 import com.mmall.service.IUserService;
 import com.mmall.util.CookieUtil;
 import com.mmall.util.JsonUtil;
-import com.mmall.util.RedisPoolUtil;
+import com.mmall.util.RedisShardedUtil;
 import com.mmall.vo.OrderVo;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,42 +35,44 @@ public class OrderManageController {
     public ServerResponse<PageInfo> orderList(HttpServletRequest httpServletRequest,
                                               @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                               @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
-        if (StringUtils.isEmpty((loginToken))) {
-            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
-        }
-        String userJsonStr = RedisPoolUtil.get(loginToken);
-        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+//        if (StringUtils.isEmpty((loginToken))) {
+//            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
+//        }
+//        String userJsonStr = RedisShardedUtil.get(loginToken);
+//        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//
+//        if (user == null) {
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
+//        }
+//        // 检查是否为管理员
+//        if (!iUserService.checkAdminRole(user).isSuccess()) {
+//            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
+//        }
 
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
-        }
-        // 检查是否为管理员
-        if (!iUserService.checkAdminRole(user).isSuccess()) {
-            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
-        }
-
+        // 校验是否为管理员，通过拦截器进行验证
         return iOrderService.manageList(pageNum, pageSize);
     }
 
     @RequestMapping("detail.do")
     @ResponseBody
     public ServerResponse<OrderVo> orderDetail(HttpServletRequest httpServletRequest, Long orderNo) {
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
-        if (StringUtils.isEmpty((loginToken))) {
-            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
-        }
-        String userJsonStr = RedisPoolUtil.get(loginToken);
-        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+//        if (StringUtils.isEmpty((loginToken))) {
+//            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
+//        }
+//        String userJsonStr = RedisShardedUtil.get(loginToken);
+//        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//
+//        if (user == null) {
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
+//        }
+//        // 检查是否为管理员
+//        if (!iUserService.checkAdminRole(user).isSuccess()) {
+//            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
+//        }
 
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
-        }
-        // 检查是否为管理员
-        if (!iUserService.checkAdminRole(user).isSuccess()) {
-            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
-        }
-
+        // 校验是否为管理员，通过拦截器进行验证
         return iOrderService.manageDetail(orderNo);
     }
 
@@ -79,42 +81,44 @@ public class OrderManageController {
     public ServerResponse<PageInfo> orderSearch(HttpServletRequest httpServletRequest, Long orderNo,
                                                 @RequestParam(value = "pageNum", defaultValue = "1") int pageNum,
                                                 @RequestParam(value = "pageSize", defaultValue = "10") int pageSize) {
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
-        if (StringUtils.isEmpty((loginToken))) {
-            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
-        }
-        String userJsonStr = RedisPoolUtil.get(loginToken);
-        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+//        if (StringUtils.isEmpty((loginToken))) {
+//            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
+//        }
+//        String userJsonStr = RedisShardedUtil.get(loginToken);
+//        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//
+//        if (user == null) {
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
+//        }
+//        // 检查是否为管理员
+//        if (!iUserService.checkAdminRole(user).isSuccess()) {
+//            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
+//        }
 
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
-        }
-        // 检查是否为管理员
-        if (!iUserService.checkAdminRole(user).isSuccess()) {
-            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
-        }
-
+        // 校验是否为管理员，通过拦截器进行验证
         return iOrderService.manageSearch(orderNo, pageNum, pageSize);
     }
 
     @RequestMapping("send_goods.do")
     @ResponseBody
     public ServerResponse<String> orderSendGoods(HttpServletRequest httpServletRequest, Long orderNo) {
-        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
-        if (StringUtils.isEmpty((loginToken))) {
-            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
-        }
-        String userJsonStr = RedisPoolUtil.get(loginToken);
-        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//        String loginToken = CookieUtil.readLoginToken(httpServletRequest);
+//        if (StringUtils.isEmpty((loginToken))) {
+//            return ServerResponse.createByErrorMessage("用户未登录， 无法获取当前用户的信息");
+//        }
+//        String userJsonStr = RedisShardedUtil.get(loginToken);
+//        User user = JsonUtil.string2Obj(userJsonStr, User.class);
+//
+//        if (user == null) {
+//            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
+//        }
+//        // 检查是否为管理员
+//        if (!iUserService.checkAdminRole(user).isSuccess()) {
+//            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
+//        }
 
-        if (user == null) {
-            return ServerResponse.createByErrorCodeMessage(ResponseCode.NEED_LOGIN.getCode(), "用户未登录，请登录");
-        }
-        // 检查是否为管理员
-        if (!iUserService.checkAdminRole(user).isSuccess()) {
-            return ServerResponse.createByErrorMessage("无权限操作，需要管理员权限");
-        }
-
+        // 校验是否为管理员，通过拦截器进行验证
         return iOrderService.manageSendGoods(orderNo);
     }
 }
