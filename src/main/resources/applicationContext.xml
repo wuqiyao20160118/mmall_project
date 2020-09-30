@@ -3,11 +3,11 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
        xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
        xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="
-     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
      http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
      http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
-     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd">
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
 
     <!--包扫描, 扫描com.mmall包下所有文件-->
     <context:component-scan base-package="com.mmall" annotation-config="true">
@@ -16,6 +16,12 @@
 
     <!--<context:annotation-config/>-->
     <aop:aspectj-autoproxy/>
+
+    <!-- 引入当前profile的数据库配置文件，注入applicationContext-datasource.xml -->
+    <context:property-placeholder location="classpath:datasource.properties"/>
+
+    <!-- spring schedule配置 -->
+    <task:annotation-driven/>
 
 
     <!--引入外部配置, 配置分离了-->
